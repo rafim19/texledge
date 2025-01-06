@@ -45,7 +45,7 @@ def rescale_tointscore(scaled_scores):
 
 @st.cache_resource
 def load_model():
-    model_path = "./networks/devrank_core_bert.prompt.pt"
+    model_path = "./devrank_core_bert.prompt.pt"
     # model_path = "./networks/classification_devrank_core_bert.prompt.pt"
     # model_path = "./networks/cls_devrank_core_bert.prompt.pt"
     model = torch.load(model_path, map_location=device)
