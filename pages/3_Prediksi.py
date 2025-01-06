@@ -149,16 +149,16 @@ def main():
         """)
 
     text1 = st.text_area("Masukkan teks keunggulan program studi Anda di sini:", height=300, key="text_area", help="Formulir Pengisian hanya menerima teks untuk memaksimalkan hasil prediksi.")
-    st.markdown(
-        """
-        <style>
-        .stTextArea textarea {
-            background-color: white;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    # st.markdown(
+    #     """
+    #     <style>
+    #     .stTextArea textarea {
+    #         background-color: white;
+    #     }
+    #     </style>
+    #     """,
+    #     unsafe_allow_html=True
+    # )
     # text1 = st_quill(html=True, key="quill")
     text2, ref_score = get_reference_text()
 
