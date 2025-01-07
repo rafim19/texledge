@@ -18,8 +18,7 @@ TexLedge adalah sebuah alat bantu untuk website pemerintah yang berfokus pada pr
 3. Sistem akan menganalisis dan memberikan prediksi
 4. Sistem akan memberikan rekomendasi jika nilai prediksi masih dapat ditingkatkan
 
-Aplikasi ini dikembangkan untuk membantu proses evaluasi usulan program studi baru dengan lebih efektif dan efisien.
-            
+Aplikasi ini dikembangkan untuk membantu proses pengusulan program studi baru agar lebih efektif dan efisien.
+Berikut adalah video *tutorial* penggunaan aplikasi TexLedge:
 """)
-# Berikut adalah video *tutorial* penggunaan aplikasi TexLedge:
-# st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+st.video("https://www.youtube.com/watch?v=2Ju1ApN0swc")
