@@ -87,9 +87,12 @@ def get_reference_text():
     sample = df[df['nilai'] == 2].sample(1)
     return sample['isiPengusul'].values[0], sample['nilai'].values[0]
 
+def clear_text():
+    st.session_state["text_area"] = ""
+
 def main():
     model, tokenizer = load_model()
-    # scaler = joblib.load("target_scaler.pkl")
+    text2, ref_score = get_reference_text()
 
     rekomendasi = {
         0: """
@@ -145,36 +148,60 @@ def main():
             ---
             **Catatan:** 
             1. Formulir Pengisian hanya menerima teks untuk memaksimalkan hasil prediksi.
+            2. Minimum isian sejumlah 100 kata untuk memastikan bahwa pengguna sudah menjelaskan keunggulan program studi sesuai dengan panduan
             2. Fitur ini menggunakan teknologi AI yang bisa memberikan hasil yang tidak akurat. Oleh karena itu, hasil yang diberikan tidak dijamin kebenarannya dan sebaiknya selalu dicek kembali dengan keadaan aslinya.
         """)
+        
+    text1 = st.text_area("Masukkan teks keunggulan program studi Anda di sini:", height=300, key="text_area", help="Formulir Pengisian hanya menerima teks untuk memaksimalkan hasil prediksi.", placeholder="Minimum isian 100 kata.")
 
-    text1 = st.text_area("Masukkan teks keunggulan program studi Anda di sini:", height=300, key="text_area", help="Formulir Pengisian hanya menerima teks untuk memaksimalkan hasil prediksi.")
-    # st.markdown(
-    #     """
-    #     <style>
-    #     .stTextArea textarea {
-    #         background-color: white;
-    #     }
-    #     </style>
-    #     """,
-    #     unsafe_allow_html=True
-    # )
-    # text1 = st_quill(html=True, key="quill")
-    text2, ref_score = get_reference_text()
+    word_count = len(text1.split())
+    st.markdown(f"**Jumlah kata:** {word_count}")
 
-    # with open("./data/X_test_cls.pkl", "rb") as f:
-    #     X_test = joblib.load(f)[0]
-    # with open("./data/Y_test_cls.pkl", "rb") as f:
-    #     Y_test = joblib.load(f)[0]
+    col1, col2, col3 = st.columns([3, 3, 8], gap="small")
 
-    # print(X_test)
-    # print(Y_test)
+    st.markdown("""
+        <style>
+        .stButton > button {
+            width: 100%;
+        }
+        div[data-testid="stHorizontalBlock"] > div:nth-child(1) button:focus,
+        div[data-testid="stHorizontalBlock"] > div:nth-child(1) button {
+            background-color: #0083B8;
+            color: white;
+            border: none;
+        }
+        div[data-testid="stHorizontalBlock"] > div:nth-child(1) button:active,
+        div[data-testid="stHorizontalBlock"] > div:nth-child(1) button:hover {
+            background-color: white;
+            border: 1px solid #0083B8;
+            color: #0083B8;
+        }
+        div[data-testid="stHorizontalBlock"] > div:nth-child(2) button:focus,
+        div[data-testid="stHorizontalBlock"] > div:nth-child(2) button {
+            background-color: #e0a800;
+            color: white;
+            border: none;
+        }
+        div[data-testid="stHorizontalBlock"] > div:nth-child(2) button:active,
+        div[data-testid="stHorizontalBlock"] > div:nth-child(2) button:hover {
+            background-color: white;
+            border: 1px solid #e0a800;
+            color: #e0a800;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    with col1:
+        predict = st.button("Prediksi", key="predict-btn")
 
-    if st.button("Prediksi"):
+    with col2:
+        st.button("Bersihkan Teks", on_click=clear_text, key="clear-btn")    
+
+    if predict:
         clean_text1 = preprocess_input(text1)
-        # if len(clean_text1.split()) < 100:
-        #     st.warning("Teks harus memiliki minimal 100 kata.")
-        #     return
+        if len(clean_text1.split()) < 100:
+            st.warning("Teks harus memiliki minimal 100 kata.")
+            return
         
         clean_text2 = text2
 
@@ -208,50 +235,6 @@ def main():
         
         x0 = [j for j in X]
         x2 = torch.LongTensor(x0).to(device)
-        
-        # print(x)
-        
-        # inputs1 = tokenizer.encode_plus(
-        #     clean_text1,
-        #     max_length=512,
-        #     truncation=True,
-        #     padding="max_length",
-        #     return_tensors="pt"
-        # )
-
-        # st.write(inputs1)
-        # st.write(len(inputs1['input_ids']))
-        # return
-
-
-        # inputs2 = tokenizer.encode_plus(
-        #     clean_text2,
-        #     max_length=512,
-        #     truncation=True,
-        #     padding="max_length",
-        #     return_tensors="pt"
-        # )
-
-        # with torch.no_grad():
-        #     # x0 = [j for j in X_test]
-        #     # print(len(x0))
-        #     # x = torch.LongTensor([x0]).to(device)
-        #     logits = model(x.to(device))
-        #     probs = F.softmax(logits, dim=1)
-        #     print(probs)
-        #     final_pred_score = torch.argmax(probs, dim=1)
-        #     final_pred_score = final_pred_score.cpu().numpy().flatten()[0]
-
-        # if final_pred_score < 2:
-        #     st.warning("Tidak Memenuhi")
-        #     st.warning(f"Skor teks: {final_pred_score}")
-        #     with st.expander("Rekomendasi Perbaikan", expanded=False):
-        #         st.markdown(rekomendasi[0])
-        # else:
-        #     st.success("Memenuhi")
-        #     st.success(f"Skor teks: {final_pred_score}")
-        #     with st.expander("Rekomendasi Peningkatan", expanded=False):
-        #         st.markdown(rekomendasi[math.floor(final_pred_score)])
 
         with torch.no_grad():
             prediction = model(x.to(device), x2.to(device))
@@ -277,6 +260,26 @@ def main():
             with st.expander("Rekomendasi Peningkatan", expanded=False):
                 st.write("*Tulisan di dbawah ini hanyalah rekomendasi saja. Jika anda merasa sudah memenuhi seluruh kriteria, anda dapat mengabaikan rekomendasi ini.*")
                 st.markdown(rekomendasi[math.floor(final_pred_score)])
+    # st.markdown(
+    #     """
+    #     <style>
+    #     .stTextArea textarea {
+    #         background-color: white;
+    #     }
+    #     </style>
+    #     """,
+    #     unsafe_allow_html=True
+    # )
+    # text1 = st_quill(html=True, key="quill")
+
+    # with open("./data/X_test_cls.pkl", "rb") as f:
+    #     X_test = joblib.load(f)[0]
+    # with open("./data/Y_test_cls.pkl", "rb") as f:
+    #     Y_test = joblib.load(f)[0]
+
+    # print(X_test)
+    # print(Y_test)
+        
 
 if __name__ == "__main__":
     main()
