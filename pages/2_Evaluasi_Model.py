@@ -23,12 +23,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-Halaman ini memuat hasil evaluasi dari model <em>Neural Pairwise Contrastive Learning</em> (NPCR) yang sudah di-<em>tuning</em> melalui beberapa proses, yaitu:
+Halaman ini memuat hasil evaluasi dari model <em>Neural Pairwise Contrastive Learning</em> (NPCR) yang sudah di-<em>tuning</em> dengan <em>hyperparameter</em> yang berbeda-beda. Berikut adalah <em>hyperparameter</em> yang akan diubah nilainya untuk mencari model terbaik:
 
 <style>
 table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
 }
 th, td {
     border: 1px solid black;
@@ -41,190 +42,222 @@ th, td {
 }
 </style>
 
-<ol>
-        <li>
-            Pencarian <em>loss function</em> yang terbaik
-            <table>
-                <tr>
-                    <th rowspan="2"><em>Loss Function</em></th>
-                    <th rowspan="2"><em>Batch Size</em></th>
-                    <th rowspan="2"><em>Dropout</em></th>
-                    <th rowspan="2">Token Maksimum</th>
-                    <th colspan="4">Metrik Evaluasi</th>
-                </tr>
-                <tr>
-                    <th>MAE</th>
-                    <th>MSE</th>
-                    <th>RMSE</th>
-                    <th><em>R-Squared</em></th>
-                </tr>
-                <tr>
-                    <td>MSE</td>
-                    <td rowspan="3">8</td>
-                    <td rowspan="3">0.5</td>
-                    <td rowspan="3">512</td>
-                    <td>0.36</td>
-                    <td>0.27</td>
-                    <td>0.52</td>
-                    <td>0.78</td>
-                </tr>
-                <tr>
-                    <td>Weighted MSE</td>
-                    <td>0.38</td>
-                    <td>0.29</td>
-                    <td>0.54</td>
-                    <td>0.77</td>
-                </tr>
-                <tr class="selected">
-                    <td style="font-weight: bold">MAE</td>
-                    <td>0.33</td>
-                    <td>0.25</td>
-                    <td>0.50</td>
-                    <td>0.80</td>
-                </tr>
-            </table>
-        </li>
-        <li>
-            Pencarian nilai <em>batch size</em> yang terbaik
-            <table>
-                <tr>
-                    <th rowspan="2">Loss Function</em></th>
-                    <th rowspan="2">Batch Size</em></th>
-                    <th rowspan="2">Dropout</em></th>
-                    <th rowspan="2">Token Maksimum</th>
-                    <th colspan="4">Metrik Evaluasi</th>
-                </tr>
-                <tr>
-                    <th>MAE</th>
-                    <th>MSE</th>
-                    <th>RMSE</th>
-                    <th><em>R-Squared</em></th>
-                </tr>
-                <tr>
-                    <td rowspan="5">MAE</td>
-                    <td>12</td>
-                    <td rowspan="5">0.5</td>
-                    <td rowspan="5">512</td>
-                    <td>0.34</td>
-                    <td>0.25</td>
-                    <td>0.50</td>
-                    <td>0.79</td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>0.34</td>
-                    <td>0.25</td>
-                    <td>0.50</td>
-                    <td>0.79</td>
-                </tr>
-                <tr class="selected">
-                    <td style="font-weight: bold">8</td>
-                    <td>0.33</td>
-                    <td>0.25</td>
-                    <td>0.50</td>
-                    <td>0.80</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>0.35</td>
-                    <td>0.27</td>
-                    <td>0.52</td>
-                    <td>0.79</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>0.36</td>
-                    <td>0.27</td>
-                    <td>0.52</td>
-                    <td>0.78</td>
-                </tr>
-            </table>
-        </li>
-        <li>
-            Pencarian nilai <em>dropout</em> yang terbaik
-            <table>
-                <tr>
-                    <th rowspan="2"><em>Loss Function</em></th>
-                    <th rowspan="2"><em>Batch Size</em></th>
-                    <th rowspan="2"><em>Dropout</em></th>
-                    <th rowspan="2">Token Maksimum</th>
-                    <th colspan="4">Metrik Evaluasi</th>
-                </tr>
-                <tr>
-                    <th>MAE</th>
-                    <th>MSE</th>
-                    <th>RMSE</th>
-                    <th><em>R-Squared</em></th>
-                </tr>
-                <tr>
-                    <td rowspan="3">MAE</td>
-                    <td rowspan="3">8</td>
-                    <td>0.7</td>
-                    <td rowspan="3">512</td>
-                    <td>0.35</td>
-                    <td>0.26</td>
-                    <td>0.51</td>
-                    <td>0.79</td>
-                </tr>
-                <tr class="selected">
-                    <td style="font-weight: bold">0.5</td>
-                    <td>0.33</td>
-                    <td>0.25</td>
-                    <td>0.50</td>
-                    <td>0.80</td>
-                </tr>
-                <tr>
-                    <td>0.3</td>
-                    <td>0.35</td>
-                    <td>0.27</td>
-                    <td>0.52</td>
-                    <td>0.79</td>
-                </tr>
-            </table>
-        </li>
-        <li>
-            Pencarian nilai token maksimum yang terbaik
-            <table>
-                <tr>
-                    <th rowspan="2"><em>Loss Function</em></th>
-                    <th rowspan="2"><em>Batch Size</em></th>
-                    <th rowspan="2"><em>Dropout</em></th>
-                    <th rowspan="2">Token Maksimum</th>
-                    <th colspan="4">Metrik Evaluasi</th>
-                </tr>
-                <tr>
-                    <th>MAE</th>
-                    <th>MSE</th>
-                    <th>RMSE</th>
-                    <th><em>R-Squared</em></th>
-                </tr>
-                <tr>
-                    <td rowspan="3">MAE</td>
-                    <td rowspan="3">8</td>
-                    <td rowspan="3">0.5</td>
-                    <td class="selected" style="font-weight: bold">512</td>
-                    <td class="selected">0.33</td>
-                    <td class="selected">0.25</td>
-                    <td class="selected">0.50</td>
-                    <td class="selected">0.80</td>
-                </tr>
-                <tr>
-                    <td>256</td>
-                    <td>0.34</td>
-                    <td>0.26</td>
-                    <td>0.51</td>
-                    <td>0.79</td>
-                </tr>
-                <tr>
-                    <td>128</td>
-                    <td>0.35</td>
-                    <td>0.26</td>
-                    <td>0.51</td>
-                    <td>0.79</td>
-                </tr>
-            </table>
-        </li>
-</ol>
+<table>
+    <tr>
+        <th><em>Hyperparameter</em></th>
+        <th colspan="3">Nilai</th>
+    </tr>
+    <tr>
+        <td><em>Batch Size</em></td>
+        <td>6</td>
+        <td>8</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td><em>Dropout</em></td>
+        <td>0.3</td>
+        <td>0.5</td>
+        <td>0.7</td>
+    </tr>
+    <tr>
+        <td>Token Maksimum</td>
+        <td>128</td>
+        <td>256</td>
+        <td>512</td>
+    </tr>
+</table>
+
+Evaluasi dilakukan dengan menggunakan data uji yang sudah disiapkan sebelumnya. Berikut adalah hasil evaluasi dari model NPCR yang sudah di-<em>tuning</em>:     
+            
+<table>
+    <tr>
+        <th rowspan="2"><em>Batch Size</em></th>
+        <th rowspan="2"><em>Dropout</em></th>
+        <th rowspan="2">Token Maksimum</th>
+        <th colspan="4">Metrik Evaluasi</th>
+    </tr>
+    <tr>
+        <th>MAE</th>
+        <th>MSE</th>
+        <th><em>R-Squared</em></th>
+    </tr>
+    <tr class="selected">
+        <td>8</td>
+        <td>0.5</td>
+        <td>512</td>
+        <td>0.33</td>
+        <td>0.25</td>
+        <td>0.80</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.5</td>
+        <td>512</td>
+        <td>0.34</td>
+        <td>0.25</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.5</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.3</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.7</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.5</td>
+        <td>256</td>
+        <td>0.34</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.5</td>
+        <td>128</td>
+        <td>0.35</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.7</td>
+        <td>256</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>0.3</td>
+        <td>256</td>
+        <td>0.34</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.5</td>
+        <td>256</td>
+        <td>0.35</td>
+        <td>0.26</td>
+        <td>0.80</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.7</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.78</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.3</td>
+        <td>256</td>
+        <td>0.34</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.3</td>
+        <td>128</td>
+        <td>0.34</td>
+        <td>0.25</td>
+        <td>0.80</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.7</td>
+        <td>512</td>
+        <td>0.33</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.3</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.7</td>
+        <td>256</td>
+        <td>0.34</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.5</td>
+        <td>128</td>
+        <td>0.34</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.7</td>
+        <td>256</td>
+        <td>0.37</td>
+        <td>0.28</td>
+        <td>0.78</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.3</td>
+        <td>512</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.78</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.3</td>
+        <td>128</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>0.7</td>
+        <td>128</td>
+        <td>0.34</td>
+        <td>0.26</td>
+        <td>0.79</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>0.5</td>
+        <td>256</td>
+        <td>0.35</td>
+        <td>0.27</td>
+        <td>0.79</td>
+    </tr>
+</table>
             
 Dari proses tersebut didapatkan bahwa model dengan <em>loss function</em> MAE, <em>batch size</em> 8, <em>dropout</em> 0.5, dan token maksimum 512 memberikan hasil evaluasi terbaik. Model ini memiliki nilai MAE sebesar 0.33, MSE sebesar 0.25, RMSE sebesar 0.50, dan <em>R-Squared</em> sebesar 0.80.
 """, unsafe_allow_html=True)
@@ -286,6 +319,8 @@ df = pd.DataFrame({
     'Predictions': test_loader,
     'Ground Truth': ground_truth
 })
+
+st.write("### Visualisasi")
 
 # Create tabs for scatter plot and density heatmap
 tab1, tab2 = st.tabs(["Scatter Plot", "Density Heatmap"])
